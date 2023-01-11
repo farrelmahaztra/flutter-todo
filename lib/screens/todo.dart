@@ -11,33 +11,10 @@ class TodoScreen extends StatefulWidget {
 }
 
 class TodoScreenState extends State<TodoScreen> {
-  List<Todo> todos = [];
-
-  void _handleCreateTodo(Todo todo) {
-    setState(() {
-      todos.add(todo);
-    });
-  }
-
-  void _handleDeleteTodo() {
-    setState(
-        () => {todos = todos.where((todo) => todo.selected != true).toList()});
-  }
-
-  void _handleSelectTodo(bool? value, int index) {
-    setState(() {
-      if (value == true) {
-        todos[index].selected = true;
-      } else {
-        todos[index].selected = false;
-      }
-    });
-  }
-
   final ScrollController _scrollController = ScrollController();
 
   Widget _body() {
-    if (todos.isEmpty) {
+    if (StateContainer.of(context).todos.isEmpty) {
       return const Padding(
           padding: EdgeInsets.all(18), child: Text('No todos found.'));
     }
@@ -46,24 +23,25 @@ class TodoScreenState extends State<TodoScreen> {
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
               leading: Checkbox(
-                value: todos[index].selected,
+                value: StateContainer.of(context).todos[index].selected,
                 onChanged: (bool? value) {
-                  _handleSelectTodo(value, index);
+                  StateContainer.of(context).handleSelectTodo(value, index);
                 },
               ),
               title: Text(
-                todos[index].title,
+                StateContainer.of(context).todos[index].title,
               ),
               onTap: () => showModalBottomSheet(
                   context: context,
                   builder: (builder) {
-                    return TodoDetails(todo: todos[index]);
+                    return TodoDetails(
+                        todo: StateContainer.of(context).todos[index]);
                   }));
         },
         separatorBuilder: (BuildContext context, int index) => const Divider(
               thickness: 1,
             ),
-        itemCount: todos.length);
+        itemCount: StateContainer.of(context).todos.length);
   }
 
   @override
@@ -72,11 +50,15 @@ class TodoScreenState extends State<TodoScreen> {
       appBar: AppBar(
         title: const Text('Todo'),
         actions: <Widget>[
-          if (todos.where((todo) => todo.selected == true).toList().isNotEmpty)
+          if (StateContainer.of(context)
+              .todos
+              .where((todo) => todo.selected == true)
+              .toList()
+              .isNotEmpty)
             IconButton(
               icon: const Icon(Icons.delete),
               onPressed: () {
-                _handleDeleteTodo();
+                StateContainer.of(context).handleDeleteTodo();
               },
             )
         ],
@@ -87,7 +69,9 @@ class TodoScreenState extends State<TodoScreen> {
             context: context,
             builder: (builder) {
               return TodoForm(
-                  todos: todos, handleCreateTodo: _handleCreateTodo);
+                  todos: StateContainer.of(context).todos,
+                  handleCreateTodo:
+                      StateContainer.of(context).handleCreateTodo);
             }),
         child: const Icon(Icons.add),
       ),
