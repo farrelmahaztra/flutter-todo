@@ -1,16 +1,33 @@
-# todo
+# State Management in Flutter
 
-A new Flutter project.
+This is an example of how state management is done in a very simple todo app.
 
-## Getting Started
+## Setup
 
-This project is a starting point for a Flutter application.
+1. Clone this repository
 
-A few resources to get you started if this is your first Flutter project:
+```
+git clone https://github.com/farrelmahaztra/flutter-todo.git
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+2. Move into the directory
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+cd flutter-todo
+```
+
+3. Run the app, this should automatically install dependencies and run in Chrome
+
+```
+flutter run
+```
+
+## Notes
+
+- This isn't the best or only example of how to do state management, there's plenty to improve! :)
+- Things to think about:
+  - What else can we add, and how can we try and manage the new state (if any)?
+    - Examples: validating the todo form, updating an individual todo, categorizing todos
+  - How can we reduce code duplication?
+  - How can we optimize the state management here to limit unnecessary rebuilds?
+  - How else can we structure the app directory? Is the naming of the widgets idiomatic?
