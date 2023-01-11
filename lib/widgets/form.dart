@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/main.dart';
 
 class TodoForm extends StatefulWidget {
-  const TodoForm(
-      {super.key, required this.todos, required this.handleCreateTodo});
-
-  final List<Todo> todos;
-  final ValueChanged<Todo> handleCreateTodo;
+  const TodoForm({super.key});
 
   @override
   State<TodoForm> createState() => _TodoFormState();
@@ -18,10 +15,8 @@ class _TodoFormState extends State<TodoForm> {
   final descriptionController = TextEditingController();
 
   void handleCreate() {
-    setState(() {
-      Todo todo = Todo(titleController.text, descriptionController.text);
-      widget.handleCreateTodo(todo);
-    });
+    Todo todo = Todo(titleController.text, descriptionController.text);
+    Provider.of<TodoAppState>(context, listen: false).handleCreateTodo(todo);
   }
 
   @override

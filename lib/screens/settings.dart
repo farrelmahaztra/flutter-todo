@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/main.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -10,13 +11,13 @@ class SettingsScreen extends StatefulWidget {
 
 class SettingsScreenState extends State<SettingsScreen> {
   Widget _body() {
-    bool darkModeEnabled = StateContainer.of(context).darkModeEnabled;
+    bool darkModeEnabled = Provider.of<TodoAppState>(context).darkModeEnabled;
 
     return SwitchListTile(
       title: const Text('Turn on dark mode'),
       value: darkModeEnabled,
       onChanged: (bool value) {
-        StateContainer.of(context).toggleDarkMode();
+        Provider.of<TodoAppState>(context, listen: false).toggleDarkMode();
       },
       secondary: const Icon(Icons.lightbulb_outline),
     );
